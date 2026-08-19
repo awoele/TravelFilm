@@ -59,10 +59,10 @@ const sections: readonly CaseSection[] = [
   },
   {
     number: "02",
-    label: "FROM MOMENT TO MEMORY",
-    title: "从一张照片沉淀长期记忆",
+    label: "FROM MOMENT TO SHARE",
+    title: "从一张照片，到回顾与分享",
     description:
-      "既能回到单个瞬间，也能从所有旅程看见长期节奏；城市照片则用更具表现力的方式重新展开。",
+      "既能回到单个瞬间，也能看见长期节奏；最终把日期、照片与旅程信息排成一张可分享的回顾。",
     shots: [
       {
         index: "05",
@@ -90,11 +90,11 @@ const sections: readonly CaseSection[] = [
       },
       {
         index: "08",
-        meta: "PHOTO SHUFFLE",
-        title: "换一组，再看一次",
-        description: "同一座城市用另一组照片重新组合，让旧相册出现新的观看顺序。",
-        image: "/screens/08-city-memories-b.png",
-        alt: "TravelFilm 城市照片重新组合后的界面",
+        meta: "SHARE POSTER",
+        title: "把一卷旅程变成海报",
+        description: "重新排版日期、照片与旅程统计，生成可以直接分享的旅行回顾。",
+        image: "/screens/08-share-poster.jpg",
+        alt: "TravelFilm 旅行胶卷分享海报",
       },
     ],
   },
