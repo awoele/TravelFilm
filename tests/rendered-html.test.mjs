@@ -1,0 +1,47 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+
+async function render() {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(workerUrl.href);
+
+  return worker.fetch(
+    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    { waitUntil() {}, passThroughOnException() {} },
+  );
+}
+
+test("server-renders the TravelFilm case showcase", async () => {
+  const response = await render();
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+
+  const html = await response.text();
+  assert.match(html, /<title>TravelFilm｜把旅行变成可以回去的地方<\/title>/i);
+  assert.match(html, /把旅行/);
+  assert.match(html, /从一座城，到一次旅程/);
+  assert.match(html, /摇一摇，重新看见这座城/);
+  assert.equal((html.match(/class="shot-card"/g) ?? []).length, 8);
+  assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
+});
+
+test("keeps the visual and screenshot-slot contract", async () => {
+  const [page, css, layout, packageJson] = await Promise.all([
+    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../package.json", import.meta.url), "utf8"),
+  ]);
+
+  assert.equal((page.match(/index: "0[1-8]"/g) ?? []).length, 8);
+  assert.match(page, /等待截图回填/);
+  assert.match(css, /--orange:\s*#ff7733/i);
+  assert.match(css, /grid-template-columns:\s*repeat\(4,/i);
+  assert.match(css, /aspect-ratio:\s*390\s*\/\s*844/i);
+  assert.match(css, /\.section-heading\s*\{[^}]*flex-direction:\s*column/i);
+  assert.match(layout, /\/og\.png/);
+  assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+});
