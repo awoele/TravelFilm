@@ -22,8 +22,10 @@ test("server-renders the TravelFilm case showcase", async () => {
   const html = await response.text();
   assert.match(html, /<title>TravelFilm｜把旅行变成可以回去的地方<\/title>/i);
   assert.match(html, /把旅行/);
-  assert.match(html, /从一座城，到一次旅程/);
-  assert.match(html, /摇一摇，重新看见这座城/);
+  assert.match(html, /从足迹进入一卷旅程/);
+  assert.match(html, /从一张照片沉淀长期记忆/);
+  assert.match(html, /\/screens\/01-footprints-overview\.jpg/);
+  assert.match(html, /\/screens\/08-city-memories-b\.png/);
   assert.equal((html.match(/class="shot-card"/g) ?? []).length, 8);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
@@ -37,10 +39,10 @@ test("keeps the visual and screenshot-slot contract", async () => {
   ]);
 
   assert.equal((page.match(/index: "0[1-8]"/g) ?? []).length, 8);
-  assert.match(page, /等待截图回填/);
+  assert.equal((page.match(/image: "\/screens\//g) ?? []).length, 8);
   assert.match(css, /--orange:\s*#ff7733/i);
   assert.match(css, /grid-template-columns:\s*repeat\(4,/i);
-  assert.match(css, /aspect-ratio:\s*390\s*\/\s*844/i);
+  assert.match(css, /aspect-ratio:\s*640\s*\/\s*1387/i);
   assert.match(css, /\.section-heading\s*\{[^}]*flex-direction:\s*column/i);
   assert.match(layout, /\/og\.png/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
