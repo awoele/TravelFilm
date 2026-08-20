@@ -15,6 +15,9 @@ type CaseSection = Readonly<{
   shots: readonly Shot[];
 }>;
 
+const assetBase = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
+const publicAsset = (path: string) => `${assetBase}${path}`;
+
 const sections: readonly CaseSection[] = [
   {
     number: "01",
@@ -28,7 +31,7 @@ const sections: readonly CaseSection[] = [
         meta: "FOOTPRINTS · ALL",
         title: "先看去过的地方",
         description: "用城市照片卡和最近旅行卷，把地点与旅程放在同一入口里。",
-        image: "/screens/01-footprints-overview.jpg",
+        image: publicAsset("/screens/01-footprints-overview.jpg"),
         alt: "TravelFilm Footprints 总览，包含城市卡与最近旅行卷",
       },
       {
@@ -36,7 +39,7 @@ const sections: readonly CaseSection[] = [
         meta: "CITY CAROUSEL",
         title: "在城市之间连续浏览",
         description: "中心城市成为视觉主角，相邻地点从两侧露出，提示继续探索。",
-        image: "/screens/02-footprints-focus.jpg",
+        image: publicAsset("/screens/02-footprints-focus.jpg"),
         alt: "TravelFilm 城市照片卡横向轮播",
       },
       {
@@ -44,7 +47,7 @@ const sections: readonly CaseSection[] = [
         meta: "MY ROLLS",
         title: "把旅行整理成一卷胶片",
         description: "按旅程聚合照片、视频、地点与天数，形成可快速浏览的档案。",
-        image: "/screens/03-rolls.jpg",
+        image: publicAsset("/screens/03-rolls.jpg"),
         alt: "TravelFilm My Rolls 旅行胶卷列表",
       },
       {
@@ -52,7 +55,7 @@ const sections: readonly CaseSection[] = [
         meta: "ROLL DETAIL",
         title: "回到一次完整旅程",
         description: "封面、日期、地点与照片序列共同还原一段真实出发。",
-        image: "/screens/04-roll-detail.jpg",
+        image: publicAsset("/screens/04-roll-detail.jpg"),
         alt: "TravelFilm Roll Detail 旅行详情",
       },
     ],
@@ -69,7 +72,7 @@ const sections: readonly CaseSection[] = [
         meta: "PHOTO VIEWER",
         title: "单张照片仍是最后落点",
         description: "保留沉浸式浏览与前后切换，同时支持把当前照片设为封面。",
-        image: "/screens/05-photo-viewer.jpg",
+        image: publicAsset("/screens/05-photo-viewer.jpg"),
         alt: "TravelFilm 全屏照片浏览与设置封面",
       },
       {
@@ -77,7 +80,7 @@ const sections: readonly CaseSection[] = [
         meta: "ME · ALL",
         title: "把所有旅程放在一起看",
         description: "在 All 总览里汇总地点、天数、胶卷、里程与旅行节奏。",
-        image: "/screens/06-travel-films.jpg",
+        image: publicAsset("/screens/06-travel-films.jpg"),
         alt: "TravelFilm My Travel Films 全部旅程总览",
       },
       {
@@ -85,7 +88,7 @@ const sections: readonly CaseSection[] = [
         meta: "CITY MEMORIES",
         title: "一屏展开城市照片",
         description: "六张照片以不规则卡片叠放，Latest 与 Earlier 保留时间层次。",
-        image: "/screens/07-city-memories-a.png",
+        image: publicAsset("/screens/07-city-memories-a.png"),
         alt: "TravelFilm 城市照片不规则卡片集合",
       },
       {
@@ -93,7 +96,7 @@ const sections: readonly CaseSection[] = [
         meta: "SHARE POSTER",
         title: "把一卷旅程变成海报",
         description: "重新排版日期、照片与旅程统计，生成可以直接分享的旅行回顾。",
-        image: "/screens/08-share-poster.jpg",
+        image: publicAsset("/screens/08-share-poster.jpg"),
         alt: "TravelFilm 旅行胶卷分享海报",
       },
     ],

@@ -39,7 +39,7 @@ test("keeps the visual and screenshot-slot contract", async () => {
   ]);
 
   assert.equal((page.match(/index: "0[1-8]"/g) ?? []).length, 8);
-  assert.equal((page.match(/image: "\/screens\//g) ?? []).length, 8);
+  assert.equal((page.match(/image: publicAsset\("\/screens\//g) ?? []).length, 8);
   assert.match(css, /--orange:\s*#ff7733/i);
   assert.match(css, /grid-template-columns:\s*repeat\(4,/i);
   assert.match(css, /aspect-ratio:\s*640\s*\/\s*1387/i);
@@ -50,6 +50,6 @@ test("keeps the visual and screenshot-slot contract", async () => {
   assert.match(css, /@media\s*\(max-width:\s*1120px\)[\s\S]*?grid-template-columns:\s*repeat\(2,/i);
   assert.match(css, /\.shot-card:nth-child\(even\)\s*\{[^}]*margin-top:\s*48px/i);
   assert.doesNotMatch(css, /overflow-x:\s*auto|scroll-snap-type:\s*x/i);
-  assert.match(layout, /\/og\.png/);
+  assert.match(layout, /new URL\("og\.png", siteUrl\)/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 });
