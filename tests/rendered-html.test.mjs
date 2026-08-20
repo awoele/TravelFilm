@@ -50,6 +50,9 @@ test("keeps the visual and screenshot-slot contract", async () => {
   assert.match(css, /@media\s*\(max-width:\s*1120px\)[\s\S]*?grid-template-columns:\s*repeat\(2,/i);
   assert.match(css, /\.shot-card:nth-child\(even\)\s*\{[^}]*margin-top:\s*48px/i);
   assert.doesNotMatch(css, /overflow-x:\s*auto|scroll-snap-type:\s*x/i);
+  assert.doesNotMatch(css, /\.hero h1 span\s*\{[^}]*display:\s*block/i);
+  assert.doesNotMatch(css, /\.section-copy h2\s*\{[^}]*max-width:\s*1[12]ch/i);
+  assert.match(css, /@media\s*\(max-width:\s*560px\)[\s\S]*?\.section-copy h2\s*\{[^}]*white-space:\s*nowrap/i);
   assert.match(layout, /new URL\("og\.png", siteUrl\)/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
 });
