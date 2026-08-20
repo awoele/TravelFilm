@@ -87,6 +87,7 @@ test("keeps the visual and screenshot-slot contract", async () => {
   assert.doesNotMatch(css, /\.section-copy h2\s*\{[^}]*max-width:\s*1[12]ch/i);
   assert.match(css, /@media\s*\(max-width:\s*560px\)[\s\S]*?\.section-copy h2\s*\{[^}]*white-space:\s*nowrap/i);
   assert.match(css, /@media\s*\(max-width:\s*560px\)[\s\S]*?\.hero-photo-slot-2\s*\{[^}]*left:\s*8%[^}]*\}[\s\S]*?\.hero-photo-slot-4\s*\{[^}]*left:\s*59%[^}]*\}[\s\S]*?\.hero-photo-slot-5\s*\{[^}]*left:\s*56%/i);
+  assert.match(css, /@media\s*\(max-width:\s*560px\)[\s\S]*?footer\s*\{[^}]*font-size:\s*7px[^}]*line-height:\s*1\.45/i);
   assert.doesNotMatch(page, /旅途中的六帧记忆|<figcaption/i);
   assert.doesNotMatch(css, /\.shot-copy\s*\{[^}]*border-bottom/i);
   assert.match(layout, /new URL\("og\.png", siteUrl\)/);
