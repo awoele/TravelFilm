@@ -31,6 +31,7 @@ test("server-renders the TravelFilm case showcase", async () => {
   assert.equal((html.match(/class="hero-photo-image"/g) ?? []).length, 6);
   assert.match(html, /\/hero-memory\/01-center-red-cap\.jpg/);
   assert.match(html, /CHAHAR · AUG 2026/);
+  assert.doesNotMatch(html, /旅途中的六帧记忆|<figcaption/i);
   assert.doesNotMatch(html, /待补 6 张照片|旅行照片占位/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|react-loading-skeleton/i);
 });
@@ -85,7 +86,8 @@ test("keeps the visual and screenshot-slot contract", async () => {
   assert.doesNotMatch(css, /\.hero h1 span\s*\{[^}]*display:\s*block/i);
   assert.doesNotMatch(css, /\.section-copy h2\s*\{[^}]*max-width:\s*1[12]ch/i);
   assert.match(css, /@media\s*\(max-width:\s*560px\)[\s\S]*?\.section-copy h2\s*\{[^}]*white-space:\s*nowrap/i);
-  assert.match(css, /@media\s*\(max-width:\s*560px\)[\s\S]*?\.hero-memory-collage figcaption\s*\{[^}]*font-size:\s*7px/i);
+  assert.match(css, /@media\s*\(max-width:\s*560px\)[\s\S]*?\.hero-photo-slot-2\s*\{[^}]*left:\s*8%[^}]*\}[\s\S]*?\.hero-photo-slot-4\s*\{[^}]*left:\s*59%[^}]*\}[\s\S]*?\.hero-photo-slot-5\s*\{[^}]*left:\s*56%/i);
+  assert.doesNotMatch(page, /旅途中的六帧记忆|<figcaption/i);
   assert.doesNotMatch(css, /\.shot-copy\s*\{[^}]*border-bottom/i);
   assert.match(layout, /new URL\("og\.png", siteUrl\)/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);

@@ -179,14 +179,6 @@ main {
 .hero-photo-slot-4 { z-index: 4; top: 16%; left: 62%; width: 34%; transform: rotate(6deg); }
 .hero-photo-slot-5 { z-index: 3; top: 42%; left: 58%; width: 35%; transform: rotate(9deg); }
 .hero-photo-slot-6 { z-index: 5; top: 48%; left: 22%; width: 36%; transform: rotate(-5deg); }
-.hero-memory-collage figcaption {
-  margin-top: 12px;
-  color: rgba(244, 241, 234, .44);
-  font: 700 8px/1.5 var(--font-utility);
-  letter-spacing: .07em;
-  text-align: right;
-}
-
 .case-section { width: min(100%, 1420px); margin-inline: auto; padding: clamp(52px, 7vw, 96px) 0; border-top: 1px solid var(--line-strong); }
 .section-heading { display: flex; align-items: center; flex-direction: column; gap: 24px; margin-bottom: clamp(38px, 5vw, 66px); text-align: center; }
 .section-kicker { display: flex; justify-content: center; gap: 18px; color: var(--muted); }
@@ -600,14 +592,10 @@ footer p { margin: 0; }
   .wordmark span, .app-mark span { display: none; }
   .hero { padding: 44px 0 56px; }
   .hero-memory-collage { width: min(100%, 340px); }
+  .hero-photo-slot-2 { left: 8%; }
+  .hero-photo-slot-4 { left: 59%; }
+  .hero-photo-slot-5 { left: 56%; }
   .hero-memory-meta { font-size: 8px; }
-  .hero-memory-collage figcaption {
-    max-width: 28ch;
-    margin-left: auto;
-    font-size: 7px;
-    letter-spacing: .055em;
-    line-height: 1.45;
-  }
   .eyebrow { max-width: none; margin-bottom: 22px; font-size: 8px; line-height: 1.5; letter-spacing: .08em; white-space: nowrap; }
   .hero h1 {
     max-width: none;

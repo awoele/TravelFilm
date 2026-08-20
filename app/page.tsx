@@ -204,7 +204,6 @@ function HeroPhotoCollage() {
           </div>
         ))}
       </div>
-      <figcaption>察哈尔右翼后旗 · 旅途中的六帧记忆</figcaption>
     </figure>
   );
 }
