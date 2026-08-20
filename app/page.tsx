@@ -142,7 +142,10 @@ export default function Home() {
 
       <section className="hero" aria-labelledby="hero-title">
         <p className="eyebrow">LOCAL-FIRST TRAVEL MEMORY · MOBILE PRODUCT CASE</p>
-        <h1 id="hero-title">把旅行，变成可以回去的地方。</h1>
+        <h1 id="hero-title">
+          <span>把旅行，变成</span>
+          <span>可以回去的地方。</span>
+        </h1>
         <div className="hero-bottom">
           <p>一款本地优先的 iPhone 旅行相册，用地点、旅程与长期回顾，重新组织散落在相册里的记忆。</p>
           <div className="product-logic" aria-label="TravelFilm 产品结构">
