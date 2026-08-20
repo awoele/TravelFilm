@@ -15,8 +15,54 @@ type CaseSection = Readonly<{
   shots: readonly Shot[];
 }>;
 
+type HeroPhoto = Readonly<{
+  slot: string;
+  image: string;
+  alt: string;
+  objectPosition: string;
+}>;
+
 const assetBase = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
 const publicAsset = (path: string) => `${assetBase}${path}`;
+
+const heroPhotoSlots: readonly HeroPhoto[] = [
+  {
+    slot: "01",
+    image: publicAsset("/hero-memory/01-center-red-cap.jpg"),
+    alt: "戴红色棒球帽站在草原上的旅行肖像",
+    objectPosition: "50% 46%",
+  },
+  {
+    slot: "02",
+    image: publicAsset("/hero-memory/04-portrait-sheep.jpg"),
+    alt: "羊群与草地前的旅行肖像",
+    objectPosition: "64% 52%",
+  },
+  {
+    slot: "03",
+    image: publicAsset("/hero-memory/06-standing-sheep.jpg"),
+    alt: "羊群旁的全身旅行肖像",
+    objectPosition: "50% 38%",
+  },
+  {
+    slot: "04",
+    image: publicAsset("/hero-memory/05-camera-grassland.jpg"),
+    alt: "在草原上手持相机记录旅程",
+    objectPosition: "70% 50%",
+  },
+  {
+    slot: "05",
+    image: publicAsset("/hero-memory/02-profile-sunflowers.jpg"),
+    alt: "向日葵草原前的侧脸旅行肖像",
+    objectPosition: "72% 54%",
+  },
+  {
+    slot: "06",
+    image: publicAsset("/hero-memory/03-landscape-red-cap.jpg"),
+    alt: "戴红帽站在辽阔草原与山丘之间",
+    objectPosition: "50% 58%",
+  },
+] as const;
 
 const sections: readonly CaseSection[] = [
   {
@@ -131,30 +177,67 @@ function ScreenshotWindow({ shot }: Readonly<{ shot: Shot }>) {
   );
 }
 
+function HeroPhotoCollage() {
+  return (
+    <figure className="hero-memory-collage">
+      <div className="hero-memory-meta" aria-hidden="true">
+        <span>CHAHAR · AUG 2026</span>
+        <span>ROLL 08 · 6 FRAMES</span>
+      </div>
+      <div className="hero-photo-stage" aria-label="察哈尔右翼后旗的六张旅行照片">
+        {heroPhotoSlots.map((photo, index) => (
+          <div
+            className={`hero-photo-slot hero-photo-slot-${index + 1}`}
+            key={photo.slot}
+          >
+            <img
+              className="hero-photo-image"
+              src={photo.image}
+              alt={photo.alt}
+              width="1200"
+              height="1800"
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "auto"}
+              decoding="async"
+              style={{ objectPosition: photo.objectPosition }}
+            />
+          </div>
+        ))}
+      </div>
+      <figcaption>察哈尔右翼后旗 · 旅途中的六帧记忆</figcaption>
+    </figure>
+  );
+}
+
 export default function Home() {
   return (
     <main id="top">
-      <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="返回页面顶部">
-          YXY <span>/ PRODUCT CASE</span>
-        </a>
-        <div className="app-mark">
-          <i aria-hidden="true" /> TRAVELFILM <span>IPHONE APP</span>
-        </div>
-      </header>
-
-      <section className="hero" aria-labelledby="hero-title">
-        <p className="eyebrow">LOCAL-FIRST TRAVEL MEMORY · MOBILE PRODUCT CASE</p>
-        <h1 id="hero-title">把旅行，变成可以回去的地方。</h1>
-        <div className="hero-bottom">
-          <p>一款本地优先的 iPhone 旅行相册，用地点、旅程与长期回顾，重新组织散落在相册里的记忆。</p>
-          <div className="product-logic" aria-label="TravelFilm 产品结构">
-            <span><b>01</b> Footprints <small>看地点与照片</small></span>
-            <span><b>02</b> Rolls <small>看完整旅程</small></span>
-            <span><b>03</b> Me <small>看长期回顾</small></span>
+      <div className="hero-page">
+        <header className="site-header">
+          <a className="wordmark" href="#top" aria-label="返回页面顶部">
+            YXY <span>/ PRODUCT CASE</span>
+          </a>
+          <div className="app-mark">
+            <i aria-hidden="true" /> TRAVELFILM <span>IPHONE APP</span>
           </div>
-        </div>
-      </section>
+        </header>
+
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <p className="eyebrow">LOCAL-FIRST TRAVEL MEMORY · MOBILE PRODUCT CASE</p>
+            <h1 id="hero-title">把旅行，变成可以回去的地方。</h1>
+            <div className="hero-bottom">
+              <p>一款本地优先的 iPhone 旅行相册，用地点、旅程与长期回顾，重新整理旅途记忆。</p>
+              <div className="product-logic" aria-label="TravelFilm 产品结构">
+                <span><b>01</b><strong>Footprints</strong><small>看地点与照片</small></span>
+                <span><b>02</b><strong>Rolls</strong><small>看完整旅程</small></span>
+                <span><b>03</b><strong>Me</strong><small>看长期回顾</small></span>
+              </div>
+            </div>
+          </div>
+          <HeroPhotoCollage />
+        </section>
+      </div>
 
       {sections.map((section) => (
         <section className="case-section" id={`section-${section.number}`} key={section.number}>
