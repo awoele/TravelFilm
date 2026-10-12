@@ -1,13 +1,13 @@
 {
   "title": "TravelFilm · Visual-first",
   "kind": "design-animatic",
-  "version": 17,
+  "version": 22,
   "fps": 30,
   "width": 1920,
   "height": 1080,
   "durationInFrames": 1050,
   "mode": "autonomous-original",
-  "notes": "V17 follows the product journey, not attachment order: Rolls library -> trip detail -> photo viewer -> Footprints map -> city memory draw -> Tickets -> personal statistics -> KM motion-card creation. Every screenshot appears once; captions follow the displayed feature. Keep V16 poses, frame ranges, camera types, native screenshot fit, reading windows and balanced closing hero. Screenshot-based browser 3D showcase, not a final MP4.",
+  "notes": "V17 follows the product journey, not attachment order: Rolls library -> trip detail -> photo viewer -> Footprints map -> city memory draw -> Tickets -> personal statistics -> KM motion-card creation. Every screenshot appears once; captions follow the displayed feature. Keep V16 poses, frame ranges, camera types, native screenshot fit, reading windows and balanced closing hero. Screenshot-based browser 3D showcase, not a final MP4. V18 corrects the GLB's narrow mid-frame profile at load time without changing display/glass/camera geometry, nominal body envelope, shot poses or user-journey order. V19 adds a 35s high-energy Purusha excerpt with user-gesture audio, synchronized play/pause/seek/loop, and fades. No automatic beat-synced camera redesign. V20 automatically starts and loops the public showcase on entry, attempts audible playback under browser policy, and recovers blocked audio at the first trusted interaction. Short intro copy uses the available container width, without the former 640px cap.",
   "shots": [
     {
       "id": "contour",
@@ -877,5 +877,22 @@
     "memory-tickets",
     "travel-stats",
     "motion-card"
-  ]
+  ],
+  "housingProfile": {
+    "revision": 1,
+    "nominalDepthMM": 8.75,
+    "preserveDisplay": true,
+    "preserveCamera": true
+  },
+  "soundtrack": {
+    "title": "Purusha",
+    "artist": "NVDES",
+    "asset": "showcase-purusha-climax.mp3",
+    "sourceStartSeconds": 26.308,
+    "sourceEndSeconds": 61.308,
+    "durationSeconds": 35,
+    "fadeInSeconds": 0.18,
+    "fadeOutSeconds": 2.5,
+    "selectionMethod": "RMS + spectral-onset fallback (BeatNet unavailable)"
+  }
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-model-url="models/iphone-17-pro-max-ranguel.glb">
+<html lang="zh-CN" data-model-url="models/iphone-17-pro-max-ranguel.glb" data-autoplay="true">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TravelFilm Showcase · aura</title>
@@ -29,7 +29,7 @@
 body.playing:not(.interacting) .controls{opacity:0}body.playing .controls:hover,body.playing .controls:focus-within{opacity:1}
 #model-state{font-size:18px}body.failed #model-state{padding:20px} @media(prefers-reduced-motion:reduce){.controls{transition:none}}
 </style>
-<script type="module" crossorigin src="./runtime/index-sDjcCpsN.js"></script>
+<script type="module" crossorigin src="./runtime/index-BT40h8n8.js"></script>
 </head>
 <body class="interacting">
 <main class="viewport" id="viewport" aria-label="TravelFilm Showcase"><div class="stage" id="stage">
@@ -37,8 +37,12 @@ body.playing:not(.interacting) .controls{opacity:0}body.playing .controls:hover,
 <div class="copy" id="copy"><h2 id="title"></h2><p id="subtitle"></p></div>
 </div></main>
 <output hidden id="perf-status"></output>
+<input hidden id="scrub" type="range" min="0" max="1049" value="0">
+<button hidden id="sound-toggle" aria-pressed="false">开启声音</button>
+<audio id="showcase-bgm" src="./runtime/showcase-purusha-climax-BoAJMhJH.mp3" preload="metadata"></audio>
 <div class="controls" aria-label="播放控制">
 <button id="play" aria-label="播放" title="播放"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+<button id="music" aria-label="开启背景音乐" aria-pressed="false" title="开启背景音乐"><svg viewBox="0 0 24 24"><path d="M9 5v12a4 4 0 1 0 2 3V8l8-2v9a4 4 0 1 0 2 3V3z"/></svg></button>
 <button id="immersive" aria-label="全屏观看" title="全屏观看"><svg viewBox="0 0 24 24"><path d="M3 3h7v2H5v5H3zm11 0h7v7h-2V5h-5zM3 14h2v5h5v2H3zm16 0h2v7h-7v-2h5z"/></svg></button>
 <a href="models/ATTRIBUTION.md" aria-label="3D model by Ranguel, CC BY 4.0" title="3D model by Ranguel · CC BY 4.0"><svg viewBox="0 0 24 24"><path d="M11 10h2v8h-2zm0-4h2v2h-2z"/></svg></a>
 </div>
@@ -51,6 +55,9 @@ let film,frame=0,playing=false,ready=false,clockStart=0,startFrame=0,shotIndex=-
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function resize(){const scale=Math.min(viewport.clientWidth/1920,viewport.clientHeight/1080);stage.style.transform='scale('+scale+')';stage.style.left=(viewport.clientWidth-1920*scale)/2+'px';stage.style.top=(viewport.clientHeight-1080*scale)/2+'px'}
 new ResizeObserver(resize).observe(viewport);
+const sound=document.getElementById('sound-toggle'),music=document.getElementById('music');
+function syncMusic(){const on=sound.getAttribute('aria-pressed')==='true';music.setAttribute('aria-pressed',String(on));music.setAttribute('aria-label',on?'关闭背景音乐':'开启背景音乐');music.title=on?'关闭背景音乐':'开启背景音乐';music.style.opacity=on?'1':'.55'}
+new MutationObserver(syncMusic).observe(sound,{attributes:true});syncMusic();music.addEventListener('click',()=>sound.click());
 function render(f,force=false){
  if(!film)return;frame=Math.min(film.durationInFrames-1,Math.max(0,f));
  const index=film.shots.findIndex(s=>frame>=s.from&&frame<s.from+s.duration),s=film.shots[index],local=frame-s.from;
@@ -58,12 +65,13 @@ function render(f,force=false){
  const c=s.caption,fadeIn=c?.fadeIn??18,fadeOut=c?.fadeOut??18;
  let alpha=c?Math.min(smootherStep((local-c.start)/fadeIn),smootherStep((c.end-local)/fadeOut)):0;
  if(index===7)alpha=smootherStep(local/fadeIn);document.getElementById('copy').style.opacity=String(alpha);
- window.dispatchEvent(new CustomEvent('promo-frame',{detail:{frame,index,local,shot:s,fps:film.fps,backdrop:'flow-amethyst'}}));
+ document.getElementById('scrub').value=String(Math.floor(frame));
+ window.dispatchEvent(new CustomEvent('promo-frame',{detail:{frame,index,local,shot:s,fps:film.fps,backdrop:'flow-amethyst',playing}}));
 }
-function syncControls(){document.body.classList.toggle('playing',playing);playButton.setAttribute('aria-label',playing?'暂停':'播放');playButton.title=playing?'暂停':'播放';playButton.innerHTML=playing?'<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>':'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'}
-function pause(){playing=false;queuedPlay=false;cancelAnimationFrame(animationId);syncControls()}
+function syncControls(){document.body.classList.toggle('playing',playing);playButton.setAttribute('aria-label',playing?'暂停':'播放');playButton.title=playing?'暂停':'播放';playButton.innerHTML=playing?'<span hidden>暂停</span><svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>':'<span hidden>播放</span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'}
+function pause(){playing=false;queuedPlay=false;cancelAnimationFrame(animationId);syncControls();window.dispatchEvent(new CustomEvent("promo-playback",{detail:{frame,fps:film?.fps||30,playing}}))}
 function loop(time){if(!playing||document.hidden)return;const next=startFrame+(time-clockStart)*film.fps/1000;if(next>=film.durationInFrames){startFrame=0;clockStart=time;render(0)}else render(next);animationId=requestAnimationFrame(loop)}
-function play(){if(!film)return;if(!ready){queuedPlay=true;return}if(playing)return;playing=true;startFrame=frame;clockStart=performance.now();syncControls();if(!document.hidden)animationId=requestAnimationFrame(loop)}
+function play(){if(!film)return;if(!ready){queuedPlay=true;return}if(playing)return;playing=true;startFrame=frame;clockStart=performance.now();syncControls();window.dispatchEvent(new CustomEvent("promo-playback",{detail:{frame,fps:film.fps,playing}}));if(!document.hidden)animationId=requestAnimationFrame(loop)}
 function seek(value){pause();render(value)}
 playButton.addEventListener('click',()=>playing?pause():play());
 window.addEventListener('promo-model-ready',()=>{ready=true;render(frame,true);if(queuedPlay)play()});
@@ -73,6 +81,6 @@ document.getElementById('immersive').addEventListener('click',async()=>{try{if(d
 let hideTimer;function reveal(){document.body.classList.add('interacting');clearTimeout(hideTimer);hideTimer=setTimeout(()=>document.body.classList.remove('interacting'),2000)}
 document.addEventListener('pointermove',reveal);document.addEventListener('pointerdown',reveal);
 document.addEventListener('keydown',e=>{if(['BUTTON','A'].includes(e.target.tagName))return;reveal();if(e.code==='Space'){e.preventDefault();playing?pause():play()}if(e.code==='ArrowRight'){e.preventDefault();seek(frame+30)}if(e.code==='ArrowLeft'){e.preventDefault();seek(frame-30)}});
-fetch('shotlist.json').then(r=>{if(!r.ok)throw Error('展示加载失败');return r.json()}).then(data=>{film=data;resize();const initial=Number(params.get('frame')??(reduced?1020:0));render(Number.isFinite(initial)?initial:0);if(!reduced&&params.get('autoplay')!=='0')play();reveal()}).catch(e=>{document.getElementById('model-state').textContent=e.message});
+fetch('shotlist.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('展示加载失败');return r.json()}).then(data=>{film=data;resize();const initial=Number(params.get('frame')??(reduced?1020:0));render(Number.isFinite(initial)?initial:0);if(!reduced&&params.get('autoplay')!=='0')play();reveal()}).catch(e=>{document.getElementById('model-state').textContent=e.message});
 </script>
 </body></html>
