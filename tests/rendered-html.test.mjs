@@ -23,9 +23,9 @@ test("server-renders the TravelFilm case showcase", async () => {
   assert.match(html, /<title>TravelFilm｜把旅行变成可以回去的地方<\/title>/i);
   assert.match(html, /把旅行/);
   assert.match(html, /从足迹进入一卷旅程/);
-  assert.match(html, /从一张照片，到回顾与分享/);
-  assert.match(html, /\/screens\/01-footprints-overview\.jpg/);
-  assert.match(html, /\/screens\/08-share-poster\.jpg/);
+  assert.match(html, /让记忆有更多回看的方式/);
+  assert.match(html, /\/screens\/01-footprints-map-20261012\.jpg/);
+  assert.match(html, /\/screens\/08-travel-motion-20261012\.jpg/);
   assert.equal((html.match(/class="shot-card"/g) ?? []).length, 8);
   assert.equal((html.match(/class="hero-photo-slot hero-photo-slot-/g) ?? []).length, 6);
   assert.equal((html.match(/class="hero-photo-image"/g) ?? []).length, 6);
