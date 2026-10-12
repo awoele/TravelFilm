@@ -213,11 +213,14 @@ export default function Home() {
     <main id="top">
       <div className="hero-page">
         <header className="site-header">
-          <a className="wordmark" href="#top" aria-label="返回页面顶部">
-            YXY <span>/ PRODUCT CASE</span>
+          <a className="wordmark" href="#top" aria-label="aura 返回页面顶部">
+            aura<span>®</span>
           </a>
+          <div className="header-actions">
+          <a className="showcase-link" href={publicAsset("/showcase/")}>Showcase ↗</a>
           <div className="app-mark">
             <i aria-hidden="true" /> TRAVELFILM <span>IPHONE APP</span>
+          </div>
           </div>
         </header>
 
@@ -230,7 +233,8 @@ export default function Home() {
               <div className="product-logic" aria-label="TravelFilm 产品结构">
                 <span><b>01</b><strong>Footprints</strong><small>看地点与照片</small></span>
                 <span><b>02</b><strong>Rolls</strong><small>看完整旅程</small></span>
-                <span><b>03</b><strong>Me</strong><small>看长期回顾</small></span>
+                <span><b>03</b><strong>Tickets</strong><small>看票根与收藏</small></span>
+                <span><b>04</b><strong>Me</strong><small>看长期回顾</small></span>
               </div>
             </div>
           </div>
